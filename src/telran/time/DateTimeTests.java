@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjuster;
 import java.util.Locale;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +37,13 @@ class DateTimeTests {
 	void displayCurrentDateTimeCanadaTimeZones () {
 		//displaying current local date and time for all Canada time zones
 		//displaying should contains time zone name
+	}
+	@Test
+	void nextFriday13test() {
+		TemporalAdjuster nextFriday13 = new NextFriday13();
+		assertEquals(LocalDate.of(2023, 1, 13), LocalDate.of(2023, 1, 12)
+				.with(nextFriday13));
+		assertEquals(LocalDate.of(2023, 10, 13), LocalDate.of(2023, 1, 13).with(nextFriday13));
 	}
 
 }

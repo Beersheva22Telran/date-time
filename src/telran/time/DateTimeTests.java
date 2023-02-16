@@ -2,7 +2,7 @@
 package telran.time;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.LocalDate;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjuster;
@@ -37,6 +37,12 @@ class DateTimeTests {
 	void displayCurrentDateTimeCanadaTimeZones () {
 		//displaying current local date and time for all Canada time zones
 		//displaying should contains time zone name
+		Instant currentTime = Instant.now();
+		ZoneId.getAvailableZoneIds().stream()
+		.filter(tz -> tz.toLowerCase().contains("canada"))
+		.forEach(tz -> System.out.printf("%s %s\n",
+				LocalDateTime.ofInstant(currentTime, ZoneId.of(tz))
+				.format(DateTimeFormatter.ofPattern("YYYY-M-d H:m:s")), tz));
 	}
 	@Test
 	void nextFriday13test() {

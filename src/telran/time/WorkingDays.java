@@ -29,6 +29,7 @@ public class WorkingDays implements TemporalAdjuster {
 	}
 	public WorkingDays(DayOfWeek[] dayOffs, int nDays) {
 		daysOff = Arrays.stream(dayOffs).mapToInt(d -> d.getValue()).toArray();
+		this.nDays = nDays;
 	}
 	
 

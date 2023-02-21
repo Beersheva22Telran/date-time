@@ -37,12 +37,19 @@ class DateTimeTests {
 	void displayCurrentDateTimeCanadaTimeZones () {
 		//displaying current local date and time for all Canada time zones
 		//displaying should contains time zone name
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm VV");
 		Instant currentTime = Instant.now();
 		ZoneId.getAvailableZoneIds().stream()
 		.filter(tz -> tz.toLowerCase().contains("canada"))
 		.forEach(tz -> System.out.printf("%s %s\n",
 				LocalDateTime.ofInstant(currentTime, ZoneId.of(tz))
 				.format(DateTimeFormatter.ofPattern("YYYY-M-d H:m:s")), tz));
+		ZoneId.getAvailableZoneIds().stream()
+		.filter(zoneId -> zoneId.contains("Canada"))
+		.map(ZoneId::of)
+		.map(Instant.now()::atZone)
+		.map(dateTime -> dateTime.format(dtf))
+		.sorted().forEach(System.out::println);
 	}
 	@Test
 	void nextFriday13test() {
@@ -50,6 +57,11 @@ class DateTimeTests {
 		assertEquals(LocalDate.of(2023, 1, 13), LocalDate.of(2023, 1, 12)
 				.with(nextFriday13));
 		assertEquals(LocalDate.of(2023, 10, 13), LocalDate.of(2023, 1, 13).with(nextFriday13));
+	}
+	@Test
+	void wrkingDaysTest() {
+		System.out.println(LocalDate.now()
+				.with(new WorkingDays(new DayOfWeek[] {DayOfWeek.SATURDAY}, 5000)));
 	}
 
 }
